@@ -15,7 +15,9 @@ import project.config.*;
 //the goal of this is to run the entire project in a headless browser to reduce runtime but have a separate 
 //headed browser that will display progress and success/fail for each individual registration
 
-public class SeleniumTest1 {
+//header for testing website: https://selfservetest.yu.edu/pls/bandaily/twbkwbis.P_WWWLogin
+
+public class Registration {
 	public static String browser;
 	public static WebDriver driver;
 	public static String projectLocation = System.getProperty("user.dir");	
