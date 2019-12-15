@@ -6,7 +6,7 @@ import project.ButtonConfiguration.SetConfigureClassesButtonImplementation;
 import project.ButtonConfiguration.SetPasswordButtonImplementation;
 import project.ButtonConfiguration.SetTestLoginButtonImplementation;
 import project.JudaicStudiesConfiguration.*;
-import project.Registration.SeleniumTest1;
+import project.Registration.Registration;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -221,7 +221,7 @@ class setConfigureJudaicStudiesClasses implements ActionListener {
 class initiateRegistrationButton implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (PropertiesFile.getCredentialsVerificationStatus().equals("verified")){
-			SeleniumTest1.main(null);
+			Registration.main(null);
 		}
 	}
 }
