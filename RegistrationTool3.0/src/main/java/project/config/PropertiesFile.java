@@ -57,6 +57,26 @@ public class PropertiesFile {
 							 getTermYear()};
 	}
 	
+	public static String getOS() {
+		try {
+			String browser = propHard.getProperty("Operating_System");
+			return browser;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String getBuildNO() {
+		try {
+			String browser = propHard.getProperty("buildNo");
+			return browser;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static String getBrowser() {
 		try {
 			String browser = propHard.getProperty("browser");
@@ -78,14 +98,19 @@ public class PropertiesFile {
 	}
 	
 	public static String getUserPassword() {
+		String storedPassword = propUser.getProperty("password");
+		if (storedPassword.equals("")) {
+			return "";
+		}
 		try {
-			String userPassword = propUser.getProperty("password");
+			String userPassword = decrypt(storedPassword, propUser.getProperty("passwordKey"));
 			return userPassword;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;	
 	}
+	
 	
 	public static String getUserName() {
 		try {
@@ -215,7 +240,7 @@ public class PropertiesFile {
 		
 		userInfo[0] = getUserName();
 		userInfo[1] = propHard.getProperty("userID");
-		userInfo[2] = propUser.getProperty("password");
+		userInfo[2] = getUserPassword();
 		userInfo[3] = propUser.getProperty("loginVerification");
 		userInfo[4] = getTermSession() + " " + getTermYear();
 		userInfo[5] = propHard.getProperty("registrationStatus");
@@ -253,39 +278,25 @@ public class PropertiesFile {
 		return singleClassInfo;
 	}
 	
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private static String decrypt(String encrypted, String key) {
-		String sfzfvczx =    "aDefcNAboaokcFgJ";
-		String casdvzxcv =   "VDKGAjKKoGYjruW4";
-		String aasfawevczx = "eTCxIc9TIXQOeMus";
-		String dzhzdvxzc =   "zFLVIU4RWrTigwmL";
-		String fakeEncrypt = "9xCRQ5dg7wsEloztokMQBQ\\=\\=";
-		String fake2 = "peK+UTnAWqTDkTAETJBFVg\\=\\=";
+		if (key == null) {
+			System.out.println("properties file: key was null in decrypt");
+		}
+		String dzhzdvxzc =   "zFLVIU4RWrTigwmL"; //<- this was the previous one used
+		
 	        try {
-	        	IvParameterSpec xi = new IvParameterSpec(sfzfvczx.getBytes("UTF-8"));
-	        	IvParameterSpec il = new IvParameterSpec(aasfawevczx.getBytes("UTF-8"));
-	        	IvParameterSpec iii = new IvParameterSpec(sfzfvczx.getBytes("UTF-8"));
-	        	IvParameterSpec ix = new IvParameterSpec(aasfawevczx.getBytes("UTF-8"));
 	        	IvParameterSpec iv = new IvParameterSpec(dzhzdvxzc.getBytes("UTF-8"));
-	        	IvParameterSpec vii = new IvParameterSpec(sfzfvczx.getBytes("UTF-8"));
-	            IvParameterSpec vi = new IvParameterSpec(aasfawevczx.getBytes("UTF-8"));
-	            IvParameterSpec iiiv = new IvParameterSpec(aasfawevczx.getBytes("UTF-8"));
-	            IvParameterSpec iiv = new IvParameterSpec(casdvzxcv.getBytes("UTF-8"));
+	            
 	            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
 
 	            Cipher cipher = null;
-	            Cipher cipfer = null;
-	            Cipher cipner = null;
-	            cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-	            cipfer = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-	            cipner = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-	            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
-	            cipfer.init(Cipher.DECRYPT_MODE, skeySpec, vii);
-	            cipner.init(Cipher.DECRYPT_MODE, skeySpec, iiv);
-	           // byte[] origihal = cipfer.doFinal(Base64.decodeBase64(fakeEncrypt));
-	            byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
-	           // byte[] origimal = cipner.doFinal(Base64.decodeBase64(fake2));
 
+	            cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+
+	            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+
+	            byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
 	            return new String(original);
 	        } catch (Exception ex) {
 	            ex.printStackTrace();

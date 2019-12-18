@@ -76,7 +76,7 @@ public class ClassStatsSearch
 		browser = PropertiesFile.getBrowser();
 	}
 	
-	@SuppressWarnings("unused")
+	@SuppressWarnings("all")
 	public static void setBrowserConfig() {
 		String browserLocation = projectLocation + "\\RegToolData";
 		if (headlessBrowser == false) {

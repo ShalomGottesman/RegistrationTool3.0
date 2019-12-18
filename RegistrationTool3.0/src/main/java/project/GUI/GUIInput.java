@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 import project.config.PropertiesFile;
+import project.internetConnection.internetConnection;
 import project.search.ClassStatsSearch;
 import project.writing.UserInput;
 
@@ -25,6 +26,7 @@ public class GUIInput {
 	public static boolean availableStatistics = false;
 	
 	public static void main (String[] args) { 
+		project.other.VerSig.main(null);
 		project.preCheck.initialization.main(null);
 		
 		instantiateMainMenuFrame();
@@ -49,7 +51,7 @@ public class GUIInput {
 	}
 	public static void buildMainMenuFrame() {
 		mainMenuFrame.setVisible(true);
-		mainMenuFrame.setSize(200, 375);
+		mainMenuFrame.setSize(200, 415);
 		mainMenuFrame.setResizable(false);
 		mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
@@ -102,6 +104,12 @@ public class GUIInput {
 		rightPanelBox.add(showStats);
 		rightPanelBox.add(removePassword);
 		rightPanelBox.add(register);
+		
+		JLabel buildNO = new JLabel("Build NO: " + PropertiesFile.getBuildNO());
+		buildNO.setForeground(Color.white);
+		
+		rightPanelBox.add(buildNO);
+		
 		panel.add(rightPanelBox, "West");
 		
 		if (availableStatistics)
@@ -145,6 +153,9 @@ public class GUIInput {
 		JLabel regStatus = new JLabel("Status: " + userInfo[5]);
 		regStatus.setForeground(Color.white);
 		
+		JLabel operatingSystem = new JLabel("OS: " + PropertiesFile.getOS());
+		operatingSystem.setForeground(Color.white);
+		
 		JLabel browser = new JLabel("Browser to be used: " + userInfo[6]);
 		browser.setForeground(Color.white);
 		//JLabel user = new JLabel();
@@ -155,6 +166,7 @@ public class GUIInput {
 		rightPanelBox.add(loginVerification);
 		rightPanelBox.add(regTerm);
 		rightPanelBox.add(regStatus);
+		rightPanelBox.add(operatingSystem);
 		rightPanelBox.add(browser);
 	}
 }
@@ -166,13 +178,23 @@ class setPasswordButtonListener implements ActionListener{
 } 
 class setTestLoginButtonListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
-		SetTestLoginButtonImplementation.runThis();
+		if (!PropertiesFile.getUserPassword().isEmpty()) {
+			if (internetConnection.isConnectionAvailable()) {
+				SetTestLoginButtonImplementation.runThis();
+			} else {
+				JOptionPane.showMessageDialog(null, "Could not reach banner website, please check internet connection", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "there is no password on file", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
 class setConfigureClassesButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (PropertiesFile.getCredentialsVerificationStatus().equals("verified")) {
 			SetConfigureClassesButtonImplementation.runThis();
+		} else {
+			JOptionPane.showMessageDialog(null, "Requires validated password", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
@@ -180,7 +202,13 @@ class setStatisticsSearchAndDisplay implements ActionListener {
 	public static String projectLocation = System.getProperty("user.dir");
 	public void actionPerformed(ActionEvent e){
 		if (PropertiesFile.getCredentialsVerificationStatus().equals("verified")) {
-			ClassStatsSearch.runClassSearchForGUI();
+			if (internetConnection.isConnectionAvailable()) {
+				ClassStatsSearch.runClassSearchForGUI();
+			} else {
+				JOptionPane.showMessageDialog(null, "Could not reach banner website, please check internet connection", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Requires validated password", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
@@ -194,6 +222,8 @@ class showStatFile implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Requires validated password and classes to be on file", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
@@ -221,7 +251,13 @@ class setConfigureJudaicStudiesClasses implements ActionListener {
 class initiateRegistrationButton implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (PropertiesFile.getCredentialsVerificationStatus().equals("verified")){
-			Registration.main(null);
+			if (internetConnection.isConnectionAvailable()) {
+				Registration.main(null);
+			} else {
+				JOptionPane.showMessageDialog(null, "Could not reach banner website, please check internet connection", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Requires validated password", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

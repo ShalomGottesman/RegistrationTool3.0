@@ -42,8 +42,12 @@ public class initialization {
 	}
 	
 	private static void extractDriver(String driverName) throws IOException {
-		InputStream in = initialization.class.getResourceAsStream("/" + driverName);
-		Files.copy(in, new File(infoFolderpath + "\\" + driverName).toPath());
+		String fileLocation = "/resources/" + driverName;
+		System.out.println("extract: " + "["+fileLocation+"]");
+		InputStream in = initialization.class.getResourceAsStream(fileLocation);
+		Files.copy(in, new File(infoFolderpath + File.separator + driverName).toPath());
+		
+	
 
 	}
 }

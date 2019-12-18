@@ -1,11 +1,21 @@
 package project.writing;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Scanner;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Base64;
 
 import project.config.PropertiesFile;
 
@@ -20,19 +30,29 @@ public class UserInput
 	{
 		String[] sessionInfo = PropertiesFile.sessionInfo();
 		String userConfigFileName = "[" + sessionInfo[0] + "][" + sessionInfo[1] + sessionInfo[2] + "].properties";
-		userConfigFileAbsolutepath = projectLocation + "\\RegToolData\\" + userConfigFileName;
-		try
-		{
-			InputStream userInputIn = new FileInputStream(userConfigFileAbsolutepath);
+		userConfigFileAbsolutepath = projectLocation + File.separator + "RegToolData" + File.separator + userConfigFileName;
+		File userPropertiesFile = new File(userConfigFileAbsolutepath);
+		if (!userPropertiesFile.exists()) {
+			try {
+				userPropertiesFile.createNewFile();
+			} catch (IOException e) {
+				System.out.println("unable to create the properties file on disk");
+			}
+		}
+		InputStream userInputIn = null;
+			try {
+				userInputIn = new FileInputStream(userConfigFileAbsolutepath);
+			} catch (FileNotFoundException e) {
+				System.out.println("cannot find file");
+			}
 			//InputStream userInputIn = PropertiesFile.class.getResourceAsStream("userConfig.properties");
 			//System.out.println(userInputIn);
-			propUserIn.load(userInputIn);
-		}
-		
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+			try {
+				propUserIn.load(userInputIn);
+			} catch (IOException e) {
+				System.out.println("unable to load props from file");
+			}
+
 	}
 	
 	public static void storeProps()
@@ -68,10 +88,42 @@ public class UserInput
 	}
 	
 	public static void setPassword(String password) {	
-		propUserIn.setProperty("password", "");
-		propUserIn.setProperty("password", password);
-		propUserIn.setProperty("loginVerification", "not verified");
+		if (password.equals("")) {
+			propUserIn.setProperty("password", "");
+			propUserIn.setProperty("password", password);
+			propUserIn.setProperty("passwordKey", "");
+			propUserIn.setProperty("loginVerification", "");
+		} 
+		if (!password.equals("")) {
+			String[] encryptedInfo = encrpt(password);
+			propUserIn.setProperty("password", "");
+			propUserIn.setProperty("password", encryptedInfo[0]);
+			propUserIn.setProperty("passwordKey", encryptedInfo[1]);
+			propUserIn.setProperty("loginVerification", "not verified");			
+		}
 
+	}
+	
+	private static String[] encrpt (String toBeEncrypted) {
+		String base = "1234567890!@$^&*qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+		String keyString = "";
+		Random rand = new Random();
+		for (int x = 0; x < 16; x ++) {
+			keyString = keyString + base.charAt(rand.nextInt(base.length()));
+		}
+		String initVector = "zFLVIU4RWrTigwmL";
+		try {
+			IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+			SecretKeySpec skeySpec = new SecretKeySpec(keyString.getBytes("UTF-8"), "AES");
+			
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+            byte[] encrypted = cipher.doFinal(toBeEncrypted.getBytes());
+            return new String[] {Base64.encodeBase64String(encrypted), keyString};
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
 	}
 	
 	public static void setNumOfClasses(String str) {

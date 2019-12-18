@@ -1,6 +1,7 @@
 package project.Registration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -27,7 +28,7 @@ public class ShiurRegistration {
 	}
 	
 	
-	public static void ypRegistration(WebDriver driver) {
+	public static void ypRegistration(WebDriver driver) throws NoSuchElementException {
 		if ((driver.findElements(By.xpath("/html/body/div[3]/form/center/h2/b")).size()!=0) &&
 			(driver.findElement(By.xpath("/html/body/div[3]/form/center/h2/b")).getText().equals(
 						"* YOU HAVE SATISFIED THE MYP REGISTRATION REQUIREMENT *"))){
@@ -38,10 +39,18 @@ public class ShiurRegistration {
 		if ((Integer.parseInt(shiurInfo[1]) > 3) || (Integer.parseInt(shiurInfo[1]) < 0)){
 			shiurInfo[1] = "0";
 		}
+		/* old code, this ordering might have been the reason it failed last time
 		driver.findElement(By.xpath("//*[@id=\"crn_id1\"]")).sendKeys(shiurInfo[0]); //identify regular CRN input field, and input CRN
 		driver.findElement(By.xpath("/html/body/div[3]/form/input[19]")).click(); //identify submit changes button and submit
 		driver.findElement(By.xpath("/html/body/div[3]/form/input[" + (shiurInfo[1]+1) + "]")); //choose amount of shiur credit
 		driver.findElement(By.xpath("/html/body/div[3]/form/input[9]")).click(); //submit amount of shiur credit
+		*/
+		//new code:
+		driver.findElement(By.xpath("/html/body/div[3]/form/input[" + (shiurInfo[1]+1) + "]"));
+		driver.findElement(By.xpath("/html/body/div[3]/form/input[9]")).click();
+		//now that shiur credits have been selected and entered
+		driver.findElement(By.xpath("//*[@id=\"crn_id1\"]")).sendKeys(shiurInfo[0]); //identify regular CRN input field, and input CRN
+		driver.findElement(By.xpath("/html/body/div[3]/form/input[19]")).click(); //identify submit changes button and submit
 		return;				
 	}
 	

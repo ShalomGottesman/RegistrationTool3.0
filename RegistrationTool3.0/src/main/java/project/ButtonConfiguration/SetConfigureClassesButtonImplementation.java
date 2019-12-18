@@ -126,6 +126,14 @@ public class SetConfigureClassesButtonImplementation {
 			setupSecondFrame(inputNumber);			
 		}
 		
+		private static String[] arrayCopy(String[] toBeCopied) {
+			String[] newArray = new String[toBeCopied.length];
+			for (int x = 0; x < newArray.length; x++) {
+				newArray[x] = toBeCopied[x];
+			}
+			return newArray;
+		}
+		
 		public static void setupSecondFrame(String numClasses) {
 			classConfigurationFrame = new JFrame("Class Configuration");
 			rows = Integer.parseInt(numClasses);
@@ -171,6 +179,8 @@ public class SetConfigureClassesButtonImplementation {
 			int courseNumberColumns = 8;
 			int sectionNumberColumns = 8;
 			
+			String[] prioritiesOptions = {"High", "Medium", "Low", "DNR"};
+			
 			switch (10 - rows + 1) {
 				case 1: 
 					classLabel10 = new JLabel("Class 10:");
@@ -185,7 +195,7 @@ public class SetConfigureClassesButtonImplementation {
 					class10CourseNumber.setColumns(courseNumberColumns);
 					class10SectionNumber = new JTextField();
 					class10SectionNumber.setColumns(sectionNumberColumns);
-					class10Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class10Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel10.add(classLabel10);
 					classPanel10.add(class10CRN);
 					classPanel10.add(class10ClassTitle);
@@ -206,7 +216,7 @@ public class SetConfigureClassesButtonImplementation {
 					class9CourseNumber.setColumns(courseNumberColumns);
 					class9SectionNumber = new JTextField();
 					class9SectionNumber.setColumns(sectionNumberColumns);
-					class9Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class9Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel9.add(classLabel9);
 					classPanel9.add(class9CRN);
 					classPanel9.add(class9ClassTitle);
@@ -227,7 +237,7 @@ public class SetConfigureClassesButtonImplementation {
 					class8CourseNumber.setColumns(courseNumberColumns);
 					class8SectionNumber = new JTextField();
 					class8SectionNumber.setColumns(sectionNumberColumns);
-					class8Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class8Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel8.add(classLabel8);
 					classPanel8.add(class8CRN);
 					classPanel8.add(class8ClassTitle);
@@ -248,7 +258,7 @@ public class SetConfigureClassesButtonImplementation {
 					class7CourseNumber.setColumns(courseNumberColumns);
 					class7SectionNumber = new JTextField();
 					class7SectionNumber.setColumns(sectionNumberColumns);
-					class7Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class7Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel7.add(classLabel7);
 					classPanel7.add(class7CRN);
 					classPanel7.add(class7ClassTitle);
@@ -269,7 +279,7 @@ public class SetConfigureClassesButtonImplementation {
 					class6CourseNumber.setColumns(courseNumberColumns);
 					class6SectionNumber = new JTextField();
 					class6SectionNumber.setColumns(sectionNumberColumns);
-					class6Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class6Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel6.add(classLabel6);
 					classPanel6.add(class6CRN);
 					classPanel6.add(class6ClassTitle);
@@ -290,7 +300,7 @@ public class SetConfigureClassesButtonImplementation {
 					class5CourseNumber.setColumns(courseNumberColumns);
 					class5SectionNumber = new JTextField();
 					class5SectionNumber.setColumns(sectionNumberColumns);
-					class5Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class5Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel5.add(classLabel5);
 					classPanel5.add(class5CRN);
 					classPanel5.add(class5ClassTitle);
@@ -311,7 +321,7 @@ public class SetConfigureClassesButtonImplementation {
 					class4CourseNumber.setColumns(courseNumberColumns);
 					class4SectionNumber = new JTextField();
 					class4SectionNumber.setColumns(sectionNumberColumns);
-					class4Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class4Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel4.add(classLabel4);
 					classPanel4.add(class4CRN);
 					classPanel4.add(class4ClassTitle);
@@ -332,7 +342,7 @@ public class SetConfigureClassesButtonImplementation {
 					class3CourseNumber.setColumns(courseNumberColumns);
 					class3SectionNumber = new JTextField();
 					class3SectionNumber.setColumns(sectionNumberColumns);
-					class3Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class3Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel3.add(classLabel3);
 					classPanel3.add(class3CRN);
 					classPanel3.add(class3ClassTitle);
@@ -353,7 +363,7 @@ public class SetConfigureClassesButtonImplementation {
 					class2CourseNumber.setColumns(courseNumberColumns);
 					class2SectionNumber = new JTextField();
 					class2SectionNumber.setColumns(sectionNumberColumns);
-					class2Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class2Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel2.add(classLabel2);
 					classPanel2.add(class2CRN);
 					classPanel2.add(class2ClassTitle);
@@ -374,7 +384,7 @@ public class SetConfigureClassesButtonImplementation {
 					class1CourseNumber.setColumns(courseNumberColumns);
 					class1SectionNumber = new JTextField();
 					class1SectionNumber.setColumns(sectionNumberColumns);
-					class1Priority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+					class1Priority = new JComboBox<String>(arrayCopy(prioritiesOptions));
 					classPanel1.add(classLabel1);
 					classPanel1.add(class1CRN);
 					classPanel1.add(class1ClassTitle);
@@ -608,7 +618,7 @@ public class SetConfigureClassesButtonImplementation {
 			JFrame ClassDisplay = new JFrame("Display Classes On File");
 			ClassDisplay.add(verticalBox);
 			ClassDisplay.setVisible(true);
-			ClassDisplay.setSize(500, panelArrayWithLabels.length * 40 + 40);
+			ClassDisplay.setSize(525, panelArrayWithLabels.length * 40 + 40);
 			ClassDisplay.setResizable(false);
 			ClassDisplay.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
@@ -657,7 +667,7 @@ public class SetConfigureClassesButtonImplementation {
 			classYCourseNumber.setColumns(8);
 			classYSectionNumber = new JTextField();
 			classYSectionNumber.setColumns(8);
-			classYPriority = new JComboBox<String>(new String[] {"High", "Medium", "Low"});
+			classYPriority = new JComboBox<String>(new String[] {"High", "Medium", "Low", "DNR"});
 			JPanel newClassInfoPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
 			newClassInfoPanel.setBackground(Color.black);
 			newClassInfoPanel.add(classYLabel);
