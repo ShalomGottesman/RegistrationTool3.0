@@ -24,10 +24,10 @@ import javax.swing.JTextField;
 import org.apache.commons.codec.binary.Base64;
 
 
-public class preCompile_other {
+public class PreCompile_Main {
 	public static JFrame preCompileMainFrame;
 	public static JTextField userNameText, eightHundredNumber, termText, yearText;
-	public static JComboBox<String> jSectionSelect, statusSelect, browserSelect, vipStatus;
+	public static JComboBox<String> jSectionSelect, statusSelect, operatingSystemOptions, browserSelect, vipStatus;
 	public static void main(String[] args) {
 		//this is meant to take the users name, the term, and the year
 		//all three of these will be encrypted with a private and public key
@@ -69,6 +69,11 @@ public class preCompile_other {
 																			 "Lower_Sophomores",
 																			 "Upper_Freshmen",
 																			 "Lower_Freshmen"});
+		
+		JLabel operatingSystemLabel = new JLabel("OS: ");
+		operatingSystemLabel.setForeground(Color.white);
+		operatingSystemOptions = new JComboBox<String>(new String[] {"Windows", "MacOS"});
+		
 		JLabel browser = new JLabel("Browser: ");
 		browser.setForeground(Color.white);
 		browserSelect = new JComboBox<String>(new String[] {"Chrome", "Firefox"});
@@ -92,6 +97,8 @@ public class preCompile_other {
 		jSectionPanel.setBackground(Color.black);
 		JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		statusPanel.setBackground(Color.black);
+		JPanel operatingSystemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		operatingSystemPanel.setBackground(Color.black);
 		JPanel browserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		browserPanel.setBackground(Color.black);
 		JPanel vipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -109,6 +116,8 @@ public class preCompile_other {
 		yearPanel.add(yearText);
 		jSectionPanel.add(jSection);
 		jSectionPanel.add(jSectionSelect);
+		operatingSystemPanel.add(operatingSystemLabel);
+		operatingSystemPanel.add(operatingSystemOptions);
 		statusPanel.add(status);
 		statusPanel.add(statusSelect);
 		browserPanel.add(browser);
@@ -124,6 +133,7 @@ public class preCompile_other {
 		verticalBox.add(yearPanel);
 		verticalBox.add(jSectionPanel);
 		verticalBox.add(statusPanel);
+		verticalBox.add(operatingSystemPanel);
 		verticalBox.add(browserPanel);
 		verticalBox.add(vipPanel);
 		verticalBox.add(buttonPanel);
@@ -137,22 +147,23 @@ public class preCompile_other {
 	}
 		public static class secureInfoAndWriteToFile implements ActionListener {
 			private String projectLocation = System.getProperty("user.dir");
-			private String fileLocation = projectLocation + "\\..\\SeleniumTestingCollaboration\\src\\project\\config\\hardConfig.properties";
+			private String fileLocation = projectLocation + "\\..\\RegistrationTool3.0\\src\\main\\java\\project\\config\\hardConfig.properties";
 			private Properties hardProperties = new Properties();
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String userNameText = preCompile_other.userNameText.getText();
-				String eightHundredNumber = preCompile_other.eightHundredNumber.getText();
-				String termText = preCompile_other.termText.getText();
-				String yearText = preCompile_other.yearText.getText();
-				String jSection = (String)preCompile_other.jSectionSelect.getSelectedItem();
-				String status = (String)preCompile_other.statusSelect.getSelectedItem();
-				String browser = (String)preCompile_other.browserSelect.getSelectedItem();
-				String vipStatus = (String)preCompile_other.vipStatus.getSelectedItem();
+				String userNameText = PreCompile_Main.userNameText.getText();
+				String eightHundredNumber = PreCompile_Main.eightHundredNumber.getText();
+				String termText = PreCompile_Main.termText.getText();
+				String yearText = PreCompile_Main.yearText.getText();
+				String jSection = (String)PreCompile_Main.jSectionSelect.getSelectedItem();
+				String status = (String)PreCompile_Main.statusSelect.getSelectedItem();
+				String operatingSystem = (String)PreCompile_Main.operatingSystemOptions.getSelectedItem();
+				String browser = (String)PreCompile_Main.browserSelect.getSelectedItem();
+				String vipStatus = (String)PreCompile_Main.vipStatus.getSelectedItem();
 				
 				String[][] allDataOnEncryptedText = encryptFollowing(userNameText, termText, yearText);
-				String[] regularData = new String[] {eightHundredNumber, jSection, status, browser, vipStatus};
+				String[] regularData = new String[] {eightHundredNumber, jSection, status, browser, vipStatus, operatingSystem};
 				writeItAllToFile(allDataOnEncryptedText, regularData);
 				preCompileMainFrame.dispose();
 				GenSig.main(null);
@@ -198,6 +209,7 @@ public class preCompile_other {
 				writeindividualPropertyToFile("registrationStatus" , regularData[2]);
 				writeindividualPropertyToFile("browser" , regularData[3]);
 				writeindividualPropertyToFile("info", regularData[4]);
+				writeindividualPropertyToFile("Operating_System", regularData[5]);
 				writeindividualPropertyToFile("buildNo", buildNo());
 				storeProperties();
 				}

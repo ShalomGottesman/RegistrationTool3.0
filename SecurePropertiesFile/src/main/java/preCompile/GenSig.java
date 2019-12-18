@@ -3,12 +3,12 @@ package preCompile;
 import java.io.*;
 import java.security.*;
  
-class GenSig {
+public class GenSig {
  
     public static void main(String[] args) {
     	String projectLocation = System.getProperty("user.dir");
-    	String folderLocation = (projectLocation + "\\..\\SeleniumTestingCollaboration\\src\\project\\config\\");
-		String fileLocation = (projectLocation + "\\..\\SeleniumTestingCollaboration\\src\\project\\config\\hardConfig.properties");
+    	String folderLocation = (projectLocation + "\\..\\RegistrationTool3.0\\src\\main\\java\\project\\config\\");
+		String fileLocation = (projectLocation + "\\..\\RegistrationTool3.0\\src\\main\\java\\project\\config\\hardConfig.properties");
  
         /* Generate a DSA signature */
     	try{
