@@ -20,7 +20,6 @@ public class GUIInput {
 	public static JFrame mainMenuFrame;
 	protected static JPanel panel;
 	private static JButton setPassword, testLogin, configure, statistics, showStats, register, judaicStudies, removePassword;
-	//private static JLabel label;
 	public static Box rightPanelBox;
 	public static Box centerPanelBox;
 	public static boolean availableStatistics = false;
@@ -52,6 +51,8 @@ public class GUIInput {
 	public static void buildMainMenuFrame() {
 		mainMenuFrame.setVisible(true);
 		mainMenuFrame.setSize(200, 415);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		mainMenuFrame.setLocation(dim.width/2-mainMenuFrame.getSize().width/2, dim.height/2-mainMenuFrame.getSize().height/2);
 		mainMenuFrame.setResizable(false);
 		mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}

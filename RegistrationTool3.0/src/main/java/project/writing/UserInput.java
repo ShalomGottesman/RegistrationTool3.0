@@ -55,16 +55,13 @@ public class UserInput
 
 	}
 	
-	public static void storeProps()
-	{
-		try
-		{
+	public static void storeProps(){
+		try	{
 			OutputStream userInputOut = new FileOutputStream(userConfigFileAbsolutepath);
 			propUserIn.store(userInputOut, "User Input");
 		}
 		
-		catch(Exception e)
-		{
+		catch(Exception e){
 			e.printStackTrace();
 		}
 	}

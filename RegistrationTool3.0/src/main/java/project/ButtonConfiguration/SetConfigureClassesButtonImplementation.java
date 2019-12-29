@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
@@ -76,6 +77,8 @@ public class SetConfigureClassesButtonImplementation {
 	public static void buildFrame1() {
 		setNumberOfClassesFrame.setVisible(true);
 		setNumberOfClassesFrame.setSize(200, 205);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setNumberOfClassesFrame.setLocation(dim.width/2-setNumberOfClassesFrame.getSize().width/2, dim.height/2-setNumberOfClassesFrame.getSize().height/2);
 		setNumberOfClassesFrame.setResizable(false);
 		setNumberOfClassesFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
@@ -437,6 +440,8 @@ public class SetConfigureClassesButtonImplementation {
 			
 			classConfigurationFrame.setVisible(true);
 			classConfigurationFrame.setSize(700, 100 + (29*rows) + 10);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			classConfigurationFrame.setLocation(dim.width/2-classConfigurationFrame.getSize().width/2, dim.height/2-classConfigurationFrame.getSize().height/2);
 			classConfigurationFrame.setResizable(false);
 			classConfigurationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
@@ -531,6 +536,7 @@ public class SetConfigureClassesButtonImplementation {
 		}
 	}
 	public static class displayAllClassesOnFile implements ActionListener {
+		static JFrame ClassDisplay;
 		public void actionPerformed(ActionEvent e) {
 			PropertiesFile.setProps();
 			String[][] currentClassInfo = PropertiesFile.getClassInfo();//[x][0] = Subject      (MAT)
@@ -615,15 +621,76 @@ public class SetConfigureClassesButtonImplementation {
 			for(int x = 0; x < panelArrayWithLabels.length; x++) {
 				verticalBox.add(panelArrayWithLabels[x]);
 			}
-			JFrame ClassDisplay = new JFrame("Display Classes On File");
+			//create sorting buttons
+			
+			JPanel lowerPanel = getLowerPanelForClassSorting();
+			verticalBox.add(lowerPanel);
+			
+			ClassDisplay = new JFrame("Display Classes On File");
 			ClassDisplay.add(verticalBox);
 			ClassDisplay.setVisible(true);
-			ClassDisplay.setSize(525, panelArrayWithLabels.length * 40 + 40);
+			ClassDisplay.setSize(525, panelArrayWithLabels.length * 40 + 40 + 15);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			ClassDisplay.setLocation(dim.width/2-ClassDisplay.getSize().width/2, dim.height/2-ClassDisplay.getSize().height/2);
 			ClassDisplay.setResizable(false);
 			ClassDisplay.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
 		}
 	}
+	
+	private static JPanel getLowerPanelForClassSorting() {
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		bottomPanel.setBackground(Color.black);
+		
+		JLabel sortBy = new JLabel("Sort classes by: ");
+		sortBy.setForeground(Color.white);
+		
+		JButton prioritySort = new JButton("Priority");
+		prioritySort.addActionListener(new sortClassesByPriority());
+		
+		JButton nameSort = new JButton("Name");
+		prioritySort.addActionListener(new sortClassesByName());
+		
+		JButton crnSort = new JButton("CRN");
+		prioritySort.addActionListener(new sortClassesByCRN());
+		
+		bottomPanel.add(sortBy);
+		bottomPanel.add(prioritySort);
+		bottomPanel.add(nameSort);
+		bottomPanel.add(crnSort);
+		
+		return bottomPanel;
+	}
+	
+	public static class sortClassesByPriority implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			displayAllClassesOnFile.ClassDisplay.dispose();
+		}
+		
+	}
+	public static class sortClassesByName implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			
+			displayAllClassesOnFile.ClassDisplay.dispose();
+		}
+		
+	}
+	public static class sortClassesByCRN implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			displayAllClassesOnFile.ClassDisplay.dispose();
+		}
+		
+	}
+	
 	
 	public static class changeIndividualClassImplementation implements ActionListener {
 		static JComboBox<String> classToChange, classYPriority;
@@ -695,6 +762,8 @@ public class SetConfigureClassesButtonImplementation {
 			newClassFrame.add(verticalBox);
 			newClassFrame.setVisible(true);
 			newClassFrame.setSize(675, 150);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			newClassFrame.setLocation(dim.width/2-newClassFrame.getSize().width/2, dim.height/2-newClassFrame.getSize().height/2);
 			newClassFrame.setResizable(false);
 			newClassFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
@@ -754,6 +823,8 @@ public class SetConfigureClassesButtonImplementation {
 			classToDeleteFrame.add(verticalBox);
 			classToDeleteFrame.setVisible(true);
 			classToDeleteFrame.setSize(175, 100);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			classToDeleteFrame.setLocation(dim.width/2-classToDeleteFrame.getSize().width/2, dim.height/2-classToDeleteFrame.getSize().height/2);
 			classToDeleteFrame.setResizable(false);
 			classToDeleteFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}

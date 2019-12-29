@@ -195,19 +195,13 @@ public class PropertiesFile {
 			e.printStackTrace();
 		}
 		return null;
-		
 	}
 	
-	public static String[][] getClassInfo()
-	{
-		try
-		{
+	public static String[][] getClassInfo(){
+		try{
 			int classNum = Integer.parseInt((propUser.getProperty("classNum")));
-			
 			String[][] classInfo = new String[classNum][6];
-			
-			for (int currentClass = 0; currentClass < classNum; currentClass++)
-			{
+			for (int currentClass = 0; currentClass < classNum; currentClass++)	{
 				classInfo[currentClass][0] = propUser.getProperty("Subj" + (currentClass+1));
 				classInfo[currentClass][1] = propUser.getProperty("Class" + (currentClass+1));
 				classInfo[currentClass][2] = propUser.getProperty("CourseNum" + (currentClass+1));
@@ -215,14 +209,10 @@ public class PropertiesFile {
 				classInfo[currentClass][4] = propUser.getProperty("CRN" + (currentClass+1));
 				classInfo[currentClass][5] = propUser.getProperty("Priority" + (currentClass+1));
 			}
-			
 			return classInfo;
 		}
-		
-		catch (Exception e)
-		{
+		catch (Exception e)	{
 			e.printStackTrace();
-			
 			return null;
 		}
 	}
@@ -425,5 +415,6 @@ public static String[][] getJSSClassInfo() {
 	return JSSClassInfo;
 }
 */
+
 
 }
